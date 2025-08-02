@@ -1,0 +1,19 @@
+<svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#EC4899;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#BE185D;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background with rounded corners -->
+  <rect width="40" height="40" rx="8" fill="url(#logoGradient)"/>
+  
+  <!-- Decorative background circles -->
+  <circle cx="8" cy="8" r="3" fill="white" opacity="0.3"/>
+  <circle cx="32" cy="12" r="2" fill="white" opacity="0.2"/>
+  <circle cx="28" cy="28" r="2.5" fill="white" opacity="0.25"/>
+  
+  <!-- Heart icon - exact same as reference -->
+  <path d="M20 30C20 30 10 22 10 16C10 12.5 12.5 10 16 10C18 10 19.5 10.5 20 12C20.5 10.5 22 10 24 10C27.5 10 30 12.5 30 16C30 22 20 30 20 30Z" stroke="white" stroke-width="2" fill="none"/>
+</svg> 

@@ -1,8 +1,13 @@
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import "./globals.css";
+import type { Metadata } from 'next'
+import { Inter, Playfair_Display } from 'next/font/google'
+import './globals.css'
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ['latin'] })
+const playfair = Playfair_Display({ 
+  subsets: ['latin'],
+  variable: '--font-playfair',
+  display: 'swap'
+})
 
 export const metadata: Metadata = {
   title: "Ovulation Date Calculator – Find Your Fertile Window",
@@ -42,20 +47,17 @@ export const metadata: Metadata = {
     statusBarStyle: "default",
     title: "Ovulation Calculator",
   },
-};
+}
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: {
+  children: React.ReactNode
+}) {
   return (
     <html lang="en">
       <head>
-        {/* AdSense Script */}
         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-        
-        {/* JSON-LD Structured Data */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -71,20 +73,14 @@ export default function RootLayout({
                 "@type": "Offer",
                 "price": "0",
                 "priceCurrency": "USD"
-              },
-              "author": {
-                "@type": "Organization",
-                "name": "Ovulation Date Calculator"
-              },
-              "potentialAction": {
-                "@type": "UseAction",
-                "target": "https://ovulationdatecalculator.com"
               }
             })
           }}
         />
       </head>
-      <body className={inter.className}>{children}</body>
+      <body className={`${inter.className} ${playfair.variable}`}>
+        {children}
+      </body>
     </html>
-  );
+  )
 }
