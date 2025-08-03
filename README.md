@@ -21,7 +21,7 @@ A mobile-first, responsive web application built with Next.js and Tailwind CSS t
 
 ### 🔒 Privacy & Security
 - Client-side calculations (no data transmitted to servers)
-- Cookie consent banner
+
 - Privacy-focused design
 - No user registration required
 
@@ -87,14 +87,7 @@ npm start
 
 ## Configuration
 
-### AdSense Integration
 
-1. Replace the placeholder AdSense publisher ID in `src/app/page.tsx`:
-```typescript
-data-ad-client="ca-pub-xxxxxxxxxxxxxxx" // Replace with your actual ID
-```
-
-2. The AdSense script is already included in the layout file.
 
 ### Customization
 

@@ -10,14 +10,29 @@ export default function TermsPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-pink-50 to-purple-50 flex flex-col">
       {/* Header */}
-      <header className="bg-white shadow-sm flex-shrink-0">
+      <header className="bg-white shadow-sm">
         <div className="max-w-4xl mx-auto px-4 py-6">
-          <h1 className="text-3xl md:text-4xl font-bold text-gray-900 text-center">
-            Terms of Use
-          </h1>
-          <p className="text-gray-700 text-center mt-2 font-medium">
-            Last updated: December 2024
-          </p>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-4">
+              <div className="w-12 h-12 bg-gradient-to-br from-pink-400 to-rose-500 rounded-xl flex items-center justify-center">
+                <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                </svg>
+              </div>
+              <div>
+                <h1 className="text-2xl font-bold text-gray-900" style={{fontFamily: "'Playfair Display', serif"}}>
+                  Terms of Use
+                </h1>
+                <p className="text-gray-600">Last updated: December 2024</p>
+              </div>
+            </div>
+            <Link 
+              href="/"
+              className="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-6 py-2 rounded-lg font-medium hover:from-purple-600 hover:to-pink-600 transition-all duration-200"
+            >
+              Back to Calculator
+            </Link>
+          </div>
         </div>
       </header>
 
@@ -158,8 +173,10 @@ export default function TermsPage() {
             </div>
             <div className="flex space-x-6">
               <a href="/about" className="hover:text-purple-600 transition-colors font-medium">About</a>
+              <a href="/faq" className="hover:text-purple-600 transition-colors font-medium">FAQ</a>
               <a href="/privacy" className="hover:text-purple-600 transition-colors font-medium">Privacy</a>
               <a href="/terms" className="hover:text-purple-600 transition-colors font-medium">Terms</a>
+              <a href="/contact" className="hover:text-purple-600 transition-colors font-medium">Contact</a>
             </div>
           </div>
         </div>

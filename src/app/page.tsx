@@ -15,9 +15,7 @@ interface CalculationResults {
   };
 }
 
-interface WindowWithAdsense extends Window {
-  adsbygoogle?: unknown[];
-}
+
 
 export default function Home() {
   const [firstDayOfPeriod, setFirstDayOfPeriod] = useState<string>('');
@@ -32,36 +30,9 @@ export default function Home() {
     if (cookiesAccepted) {
       setShowCookieBanner(false);
     }
-
-    // Load AdSense script
-    const script = document.createElement('script');
-    script.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js';
-    script.async = true;
-    document.head.appendChild(script);
-
-    return () => {
-      // Cleanup script on unmount
-      const existingScript = document.querySelector('script[src*="adsbygoogle"]');
-      if (existingScript) {
-        document.head.removeChild(existingScript);
-      }
-    };
   }, []);
 
-  useEffect(() => {
-    // Initialize AdSense ads when results are shown
-    if (results && typeof window !== 'undefined') {
-      const windowWithAdsense = window as WindowWithAdsense;
-      if (windowWithAdsense.adsbygoogle) {
-        try {
-          windowWithAdsense.adsbygoogle = windowWithAdsense.adsbygoogle || [];
-          windowWithAdsense.adsbygoogle.push({});
-        } catch {
-          console.log('AdSense not loaded yet');
-        }
-      }
-    }
-  }, [results]);
+
 
   const calculateOvulation = () => {
     if (!firstDayOfPeriod) return;
@@ -202,7 +173,7 @@ export default function Home() {
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
               <div className="w-12 h-12 relative">
-                <Image
+        <Image
                   src="/logo.svg"
                   alt="Ovulation Calculator Logo"
                   width={48}
@@ -406,8 +377,8 @@ export default function Home() {
                           undefined,
                           'Your peak fertility day - estimated based on your cycle input. Not medical advice.'
                         )}
-                        target="_blank"
-                        rel="noopener noreferrer"
+            target="_blank"
+            rel="noopener noreferrer"
                         className="w-full flex items-center justify-center px-4 py-2 bg-gradient-to-r from-pink-500 to-rose-600 text-white text-sm font-medium rounded-lg hover:from-pink-600 hover:to-rose-700 transition-all duration-200 shadow-md"
                       >
                         <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 24 24">
@@ -467,8 +438,8 @@ export default function Home() {
                           results.fertileWeek.end,
                           'Your extended fertile period - estimated based on your cycle input. Not medical advice.'
                         )}
-                        target="_blank"
-                        rel="noopener noreferrer"
+            target="_blank"
+            rel="noopener noreferrer"
                         className="w-full flex items-center justify-center px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white text-sm font-medium rounded-lg hover:from-blue-600 hover:to-blue-700 transition-all duration-200 shadow-md"
                       >
                         <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 24 24">
@@ -544,20 +515,7 @@ export default function Home() {
             </div>
           )}
 
-          {/* AdSense Ad Unit */}
-          {/* 
-          <div className="mt-12">
-            <ins
-              className="adsbygoogle"
-              style={{ display: 'block' }}
-              data-ad-client="ca-pub-xxxxxxxxxxxxxxx"
-              data-ad-slot="1234567890"
-              data-ad-format="auto"
-              data-full-width-responsive="true"
-            />
-          </div>
-          */}
-          {/* Note: Replace ca-pub-xxxxxxxxxxxxxxx with your actual AdSense publisher ID */}
+
         </div>
       </main>
 
@@ -627,14 +585,14 @@ export default function Home() {
               className="block p-3 text-center bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg border border-purple-200 hover:from-purple-100 hover:to-pink-100 transition-all duration-200 text-sm font-medium text-gray-700 hover:text-purple-700"
             >
               Conception Calculator
-            </a>
-            <a 
+        </a>
+        <a
               href="/fertilization-date-calculator.html" 
               className="block p-3 text-center bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg border border-purple-200 hover:from-purple-100 hover:to-pink-100 transition-all duration-200 text-sm font-medium text-gray-700 hover:text-purple-700"
             >
               Fertilization Date Calculator
-            </a>
-            <a 
+        </a>
+        <a
               href="/after-menses-how-many-days-to-ovulation.html" 
               className="block p-3 text-center bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg border border-purple-200 hover:from-purple-100 hover:to-pink-100 transition-all duration-200 text-sm font-medium text-gray-700 hover:text-purple-700"
             >
@@ -653,8 +611,10 @@ export default function Home() {
             </div>
             <div className="flex space-x-6">
               <a href="/about" className="hover:text-purple-600 transition-colors font-medium">About</a>
+              <a href="/faq" className="hover:text-purple-600 transition-colors font-medium">FAQ</a>
               <a href="/privacy" className="hover:text-purple-600 transition-colors font-medium">Privacy</a>
               <a href="/terms" className="hover:text-purple-600 transition-colors font-medium">Terms</a>
+              <a href="/contact" className="hover:text-purple-600 transition-colors font-medium">Contact</a>
             </div>
           </div>
         </div>
@@ -666,7 +626,7 @@ export default function Home() {
           <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-center justify-between">
             <div className="mb-4 md:mb-0 md:mr-4">
               <p className="text-sm font-medium">
-                We use cookies to improve your experience and show personalized ads. 
+                We use cookies to improve your experience. 
                 By continuing to use this site, you agree to our use of cookies.
               </p>
             </div>

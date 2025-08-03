@@ -10,25 +10,37 @@ const playfair = Playfair_Display({
 })
 
 export const metadata: Metadata = {
-  title: "Ovulation Date Calculator – Find Your Fertile Window",
-  description: "Calculate your ovulation date and fertile window with our easy-to-use calculator. Track your menstrual cycle and find your most fertile days.",
+  title: "Ovulation Date Calculator — Predict Your Fertility Window",
+  description: "Accurately estimate your ovulation date and fertility window using our free ovulation calculator. Simple, fast, and secure.",
   keywords: "ovulation calculator, fertile window, menstrual cycle, pregnancy calculator, fertility tracker, ovulation date, fertility calculator",
   authors: [{ name: "Ovulation Date Calculator" }],
   creator: "Ovulation Date Calculator",
   publisher: "Ovulation Date Calculator",
   robots: "index, follow",
+  alternates: {
+    canonical: "https://www.ovulationdatecalculator.org"
+  },
   openGraph: {
-    title: "Ovulation Date Calculator – Find Your Fertile Window",
-    description: "Calculate your ovulation date and fertile window with our easy-to-use calculator.",
+    title: "Ovulation Date Calculator — Predict Your Fertility Window",
+    description: "Accurately estimate your ovulation date and fertility window using our free ovulation calculator. Simple, fast, and secure.",
     type: "website",
     locale: "en_US",
-    url: "https://ovulationdatecalculator.com",
+    url: "https://www.ovulationdatecalculator.org",
     siteName: "Ovulation Date Calculator",
+    images: [
+      {
+        url: "https://www.ovulationdatecalculator.org/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Ovulation Date Calculator - Predict Your Fertility Window"
+      }
+    ]
   },
   twitter: {
     card: "summary_large_image",
-    title: "Ovulation Date Calculator – Find Your Fertile Window",
-    description: "Calculate your ovulation date and fertile window with our easy-to-use calculator.",
+    title: "Ovulation Date Calculator — Predict Your Fertility Window",
+    description: "Accurately estimate your ovulation date and fertility window using our free ovulation calculator. Simple, fast, and secure.",
+    images: ["https://www.ovulationdatecalculator.org/og-image.png"]
   },
   viewport: "width=device-width, initial-scale=1",
   icons: {
@@ -57,7 +69,6 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -66,7 +77,7 @@ export default function RootLayout({
               "@type": "WebApplication",
               "name": "Ovulation Date Calculator",
               "description": "Calculate your ovulation date and fertile window",
-              "url": "https://ovulationdatecalculator.com",
+              "url": "https://www.ovulationdatecalculator.org",
               "applicationCategory": "HealthApplication",
               "operatingSystem": "Web Browser",
               "offers": {
