@@ -1,6 +1,6 @@
 # Ovulation Date Calculator
 
-A mobile-first, responsive web application built with Next.js and Tailwind CSS to help women calculate their ovulation dates and fertile windows.
+A mobile-first, responsive web application built with Next.js and Tailwind CSS to help women calculate their ovulation dates and fertility windows.
 
 ## Features
 
