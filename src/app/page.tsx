@@ -125,7 +125,6 @@ export default function Home() {
 
   const generateICSContent = (title: string, startDate: Date, endDate?: Date, description?: string): string => {
     const start = formatDateForCalendar(startDate);
-    const end = endDate ? formatDateForCalendar(endDate) : start;
     const endExclusive = endDate ? formatDateForCalendar(new Date(endDate.getTime() + 24 * 60 * 60 * 1000)) : start;
     
     return [

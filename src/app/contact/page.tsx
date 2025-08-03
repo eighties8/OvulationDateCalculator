@@ -107,7 +107,7 @@ export default function ContactPage() {
           <div className="mt-8 p-6 bg-purple-50 rounded-xl">
             <h3 className="text-lg font-semibold text-purple-900 mb-3">Important Note</h3>
             <p className="text-purple-800 text-sm leading-relaxed">
-              While we're happy to help with technical questions about our calculator, 
+              While we&apos;re happy to help with technical questions about our calculator, 
               we cannot provide medical advice. For health-related questions about fertility, 
               pregnancy, or reproductive health, please consult with a qualified healthcare provider.
             </p>

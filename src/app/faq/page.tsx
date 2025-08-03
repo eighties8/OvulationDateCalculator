@@ -61,7 +61,7 @@ export default function FAQPage() {
             <div>
               <h3 className="text-xl font-semibold text-gray-900 mb-3">What is the fertile window?</h3>
               <p className="text-gray-700 leading-relaxed">
-                The fertile window is the period when you're most likely to conceive. 
+                The fertile window is the period when you&apos;re most likely to conceive. 
                 It typically includes the 5 days before ovulation and the day of ovulation itself. 
                 Sperm can survive in the female reproductive tract for up to 5 days, 
                 while the egg is viable for about 24 hours after ovulation.
@@ -90,7 +90,7 @@ export default function FAQPage() {
               <h3 className="text-xl font-semibold text-gray-900 mb-3">Is this calculator suitable for trying to conceive?</h3>
               <p className="text-gray-700 leading-relaxed">
                 Yes, this calculator can help identify your most fertile days when trying to conceive. 
-                However, it's important to remember that this is an estimate and should be used 
+                However, it&apos;s important to remember that this is an estimate and should be used 
                 alongside other fertility awareness methods for best results.
               </p>
             </div>
