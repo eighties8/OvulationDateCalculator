@@ -123,6 +123,68 @@ export default function Home() {
     });
   };
 
+  // Calendar utility functions
+  const formatDateForCalendar = (date: Date): string => {
+    return date.toISOString().split('T')[0]; // YYYY-MM-DD format
+  };
+
+  const generateGoogleCalendarUrl = (title: string, startDate: Date, endDate?: Date, description?: string): string => {
+    // Format dates in YYYYMMDD format for Google Calendar
+    const formatDateForGoogle = (date: Date): string => {
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const day = String(date.getDate()).padStart(2, '0');
+      return `${year}${month}${day}`;
+    };
+    
+    const start = formatDateForGoogle(startDate);
+    const end = endDate ? formatDateForGoogle(endDate) : start;
+    
+    const baseUrl = 'https://calendar.google.com/calendar/render';
+    const params = new URLSearchParams({
+      action: 'TEMPLATE',
+      text: title,
+      dates: `${start}/${end}`,
+      details: description || 'Estimated based on your cycle input. Not medical advice.',
+      sf: 'true',
+      output: 'xml'
+    });
+    return `${baseUrl}?${params.toString()}`;
+  };
+
+  const generateICSContent = (title: string, startDate: Date, endDate?: Date, description?: string): string => {
+    const start = formatDateForCalendar(startDate);
+    const end = endDate ? formatDateForCalendar(endDate) : start;
+    const endExclusive = endDate ? formatDateForCalendar(new Date(endDate.getTime() + 24 * 60 * 60 * 1000)) : start;
+    
+    return [
+      'BEGIN:VCALENDAR',
+      'VERSION:2.0',
+      'PRODID:-//Ovulation Calculator//Calendar Event//EN',
+      'BEGIN:VEVENT',
+      `UID:${Date.now()}@ovulationcalculator.com`,
+      `DTSTART;VALUE=DATE:${start}`,
+      `DTEND;VALUE=DATE:${endExclusive}`,
+      `SUMMARY:${title}`,
+      `DESCRIPTION:${description || 'Estimated based on your cycle input. Not medical advice.'}`,
+      'END:VEVENT',
+      'END:VCALENDAR'
+    ].join('\r\n');
+  };
+
+  const downloadICSFile = (title: string, startDate: Date, endDate?: Date, description?: string): void => {
+    const icsContent = generateICSContent(title, startDate, endDate, description);
+    const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `${title.replace(/\s+/g, '-')}.ics`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-pink-50 to-purple-50 flex flex-col">
       {/* Header */}
@@ -268,6 +330,40 @@ export default function Home() {
                       <span className="text-2xl mr-2">🎯</span>
                       Most fertile period (2-3 days)
                     </p>
+                    
+                    {/* Calendar Buttons */}
+                    <div className="mt-6 space-y-3">
+                      <a
+                        href={generateGoogleCalendarUrl(
+                          'Ovulation Window',
+                          results.ovulationWindow.start,
+                          results.ovulationWindow.end,
+                          'Your most fertile period - estimated based on your cycle input. Not medical advice.'
+                        )}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-full flex items-center justify-center px-4 py-2 bg-gradient-to-r from-purple-500 to-purple-600 text-white text-sm font-medium rounded-lg hover:from-purple-600 hover:to-purple-700 transition-all duration-200 shadow-md"
+                      >
+                        <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                        </svg>
+                        Add to Google Calendar
+                      </a>
+                      <button
+                        onClick={() => downloadICSFile(
+                          'Ovulation Window',
+                          results.ovulationWindow.start,
+                          results.ovulationWindow.end,
+                          'Your most fertile period - estimated based on your cycle input. Not medical advice.'
+                        )}
+                        className="w-full flex items-center justify-center px-4 py-2 bg-white border border-purple-300 text-purple-700 text-sm font-medium rounded-lg hover:bg-purple-50 transition-all duration-200 shadow-md"
+                      >
+                        <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/>
+                        </svg>
+                        Download ICS
+                      </button>
+                    </div>
                   </div>
                 </div>
 
@@ -300,6 +396,40 @@ export default function Home() {
                       <span className="text-2xl mr-2">💫</span>
                       Highest chance of conception
                     </p>
+                    
+                    {/* Calendar Buttons */}
+                    <div className="mt-6 space-y-3">
+                      <a
+                        href={generateGoogleCalendarUrl(
+                          'Peak Fertility Day',
+                          results.mostLikelyConception,
+                          undefined,
+                          'Your peak fertility day - estimated based on your cycle input. Not medical advice.'
+                        )}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-full flex items-center justify-center px-4 py-2 bg-gradient-to-r from-pink-500 to-rose-600 text-white text-sm font-medium rounded-lg hover:from-pink-600 hover:to-rose-700 transition-all duration-200 shadow-md"
+                      >
+                        <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                        </svg>
+                        Add to Google Calendar
+                      </a>
+                      <button
+                        onClick={() => downloadICSFile(
+                          'Peak Fertility Day',
+                          results.mostLikelyConception,
+                          undefined,
+                          'Your peak fertility day - estimated based on your cycle input. Not medical advice.'
+                        )}
+                        className="w-full flex items-center justify-center px-4 py-2 bg-white border border-pink-300 text-pink-700 text-sm font-medium rounded-lg hover:bg-pink-50 transition-all duration-200 shadow-md"
+                      >
+                        <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/>
+                        </svg>
+                        Download ICS
+                      </button>
+                    </div>
                   </div>
                 </div>
 
@@ -327,6 +457,40 @@ export default function Home() {
                       <span className="text-2xl mr-2">📅</span>
                       Extended fertile period
                     </p>
+                    
+                    {/* Calendar Buttons */}
+                    <div className="mt-6 space-y-3">
+                      <a
+                        href={generateGoogleCalendarUrl(
+                          'Fertile Week',
+                          results.fertileWeek.start,
+                          results.fertileWeek.end,
+                          'Your extended fertile period - estimated based on your cycle input. Not medical advice.'
+                        )}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-full flex items-center justify-center px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white text-sm font-medium rounded-lg hover:from-blue-600 hover:to-blue-700 transition-all duration-200 shadow-md"
+                      >
+                        <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                        </svg>
+                        Add to Google Calendar
+                      </a>
+                      <button
+                        onClick={() => downloadICSFile(
+                          'Fertile Week',
+                          results.fertileWeek.start,
+                          results.fertileWeek.end,
+                          'Your extended fertile period - estimated based on your cycle input. Not medical advice.'
+                        )}
+                        className="w-full flex items-center justify-center px-4 py-2 bg-white border border-blue-300 text-blue-700 text-sm font-medium rounded-lg hover:bg-blue-50 transition-all duration-200 shadow-md"
+                      >
+                        <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/>
+                        </svg>
+                        Download ICS
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -396,6 +560,89 @@ export default function Home() {
           {/* Note: Replace ca-pub-xxxxxxxxxxxxxxx with your actual AdSense publisher ID */}
         </div>
       </main>
+
+      {/* SEO Navigation Menu */}
+      <div className="max-w-4xl mx-auto px-4 py-6">
+        <div className="bg-white rounded-2xl shadow-lg p-6">
+          <h2 className="text-xl font-bold text-gray-900 mb-4 text-center" style={{fontFamily: "'Playfair Display', serif"}}>
+            Fertility Resources & Guides
+          </h2>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
+            <a 
+              href="/calculate-ovulation-date.html" 
+              className="block p-3 text-center bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg border border-purple-200 hover:from-purple-100 hover:to-pink-100 transition-all duration-200 text-sm font-medium text-gray-700 hover:text-purple-700"
+            >
+              Calculate Ovulation Date
+            </a>
+            <a 
+              href="/ovulation-calculator-by-due-date.html" 
+              className="block p-3 text-center bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg border border-purple-200 hover:from-purple-100 hover:to-pink-100 transition-all duration-200 text-sm font-medium text-gray-700 hover:text-purple-700"
+            >
+              Calculator by Due Date
+            </a>
+            <a 
+              href="/ovulation-calculator-from-lmp.html" 
+              className="block p-3 text-center bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg border border-purple-200 hover:from-purple-100 hover:to-pink-100 transition-all duration-200 text-sm font-medium text-gray-700 hover:text-purple-700"
+            >
+              LMP Calculator
+            </a>
+            <a 
+              href="/track-ovulation-calculator.html" 
+              className="block p-3 text-center bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg border border-purple-200 hover:from-purple-100 hover:to-pink-100 transition-all duration-200 text-sm font-medium text-gray-700 hover:text-purple-700"
+            >
+              Track Ovulation
+            </a>
+            <a 
+              href="/ovulation-calculator-for-irregular-periods.html" 
+              className="block p-3 text-center bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg border border-purple-200 hover:from-purple-100 hover:to-pink-100 transition-all duration-200 text-sm font-medium text-gray-700 hover:text-purple-700"
+            >
+              Irregular Periods
+            </a>
+            <a 
+              href="/ovulation-calculator-28-day-cycle.html" 
+              className="block p-3 text-center bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg border border-purple-200 hover:from-purple-100 hover:to-pink-100 transition-all duration-200 text-sm font-medium text-gray-700 hover:text-purple-700"
+            >
+              28 Day Cycle
+            </a>
+            <a 
+              href="/ovulation-calculator-with-calendar.html" 
+              className="block p-3 text-center bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg border border-purple-200 hover:from-purple-100 hover:to-pink-100 transition-all duration-200 text-sm font-medium text-gray-700 hover:text-purple-700"
+            >
+              Calendar Calculator
+            </a>
+            <a 
+              href="/calculate-fertile-days.html" 
+              className="block p-3 text-center bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg border border-purple-200 hover:from-purple-100 hover:to-pink-100 transition-all duration-200 text-sm font-medium text-gray-700 hover:text-purple-700"
+            >
+              Calculate Fertile Days
+            </a>
+            <a 
+              href="/when-do-you-ovulate.html" 
+              className="block p-3 text-center bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg border border-purple-200 hover:from-purple-100 hover:to-pink-100 transition-all duration-200 text-sm font-medium text-gray-700 hover:text-purple-700"
+            >
+              When Do You Ovulate
+            </a>
+            <a 
+              href="/ovulation-calculator-for-conception.html" 
+              className="block p-3 text-center bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg border border-purple-200 hover:from-purple-100 hover:to-pink-100 transition-all duration-200 text-sm font-medium text-gray-700 hover:text-purple-700"
+            >
+              Conception Calculator
+            </a>
+            <a 
+              href="/fertilization-date-calculator.html" 
+              className="block p-3 text-center bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg border border-purple-200 hover:from-purple-100 hover:to-pink-100 transition-all duration-200 text-sm font-medium text-gray-700 hover:text-purple-700"
+            >
+              Fertilization Date Calculator
+            </a>
+            <a 
+              href="/after-menses-how-many-days-to-ovulation.html" 
+              className="block p-3 text-center bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg border border-purple-200 hover:from-purple-100 hover:to-pink-100 transition-all duration-200 text-sm font-medium text-gray-700 hover:text-purple-700"
+            >
+              Days After Menses to Ovulation
+            </a>
+          </div>
+        </div>
+      </div>
 
       {/* Footer */}
       <footer className="bg-white border-t flex-shrink-0">
